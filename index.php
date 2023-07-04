@@ -5,7 +5,6 @@ use controllers\ProductController;
 use controllers\ProductTypeController;
 use repositories\JsonProductRepository;
 use repositories\JsonProductTypeRepository;
-use templates\errorCodes;
 
 require_once 'src/interfaces/ProductRepositoryInterface.php';
 require_once 'src/interfaces/ProductTypeRepositoryInterface.php';
@@ -32,7 +31,7 @@ $insuranceCalculator = new InsuranceCalculator();
 $productController = new ProductController($productRepository, $insuranceCalculator);
 $productTypeController = new ProductTypeController($productTypeRepository);
 
-if ($requestMethod === 'GET' && preg_match('/^\/products\/(\d+)$/', $requestUri, $matches)) {
+if ($requestMethod === 'GET' && preg_match('/^\/product\/(\d+)$/', $requestUri, $matches)) {
     $productId = $matches[1];
     $product = $productController->getProductById($productId);
 
@@ -47,7 +46,7 @@ if ($requestMethod === 'GET' && preg_match('/^\/products\/(\d+)$/', $requestUri,
 
         // Return the response
         header('Content-Type: application/json');
-        http_response_code(201);
+        http_response_code(202);
         echo json_encode($response);
     } else {
         // Handle product not found
@@ -68,7 +67,7 @@ if ($requestMethod === 'GET' && preg_match('/^\/products\/(\d+)$/', $requestUri,
 
         // Return the response
         header('Content-Type: application/json');
-        http_response_code(201);
+        http_response_code(202);
         echo json_encode($response);
     } else {
         // Handle productType not found
@@ -99,7 +98,7 @@ if ($requestMethod === 'GET' && preg_match('/^\/products\/(\d+)$/', $requestUri,
                 echo 'The cost of the insurance is ' . $insurancePrice . '.-';
             }
 
-            http_response_code(201);
+            http_response_code(202);
         }
         else {
             // Handle productType not found
@@ -114,6 +113,6 @@ if ($requestMethod === 'GET' && preg_match('/^\/products\/(\d+)$/', $requestUri,
     }
 } else {
     // Handle 404 error for invalid routes
-    http_response_code(404);
+    http_response_code(400);
     echo '404 Not Found';
 }
