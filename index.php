@@ -77,7 +77,7 @@ if ($requestMethod === 'GET' && preg_match('/^\/product\/(\d+)$/', $requestUri, 
                 echo 'Product does not need to be insured';
             }
             else if ($insurancePrice === -1) {
-                echo 'Product does not need to be insured';
+                echo 'Product can not be insured';
             }
             else {
                 echo 'The cost of the insurance is ' . $insurancePrice . '.-';
