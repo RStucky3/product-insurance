@@ -15,7 +15,7 @@ class ProductTypeController
 
     public function getProductTypeById($productTypeId)
     {
-        // Call the repository method to retrieve the product information
+        // Call the repository method to retrieve the productType information
         // Return the productType information
         return $this->productTypeRepository->getProductTypeById($productTypeId);
     }
