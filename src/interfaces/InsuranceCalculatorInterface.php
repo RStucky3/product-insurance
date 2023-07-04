@@ -2,5 +2,5 @@
 
 interface InsuranceCalculatorInterface
 {
-    public function calculateInsuranceCost($productSalesPrice);
+    public function calculateInsuranceCost($productSalesPrice): int;
 }

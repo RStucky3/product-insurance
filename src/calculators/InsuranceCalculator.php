@@ -6,7 +6,8 @@ use InsuranceCalculatorInterface;
 
 class InsuranceCalculator implements InsuranceCalculatorInterface
 {
-    public function calculateInsuranceCost($productSalesPrice) {
+    public function calculateInsuranceCost($productSalesPrice): int
+    {
         if ($productSalesPrice < 500) {
             return 0;
         }

@@ -26,7 +26,7 @@ class ProductController
         return $this->productRepository->getProductById($productId);
     }
 
-    public function getProductInsurance($product, $productType)
+    public function getProductInsurance($product, $productType): int
     {
         // Check if the product can be insured
         if ($productType->canBeInsured === false) {
