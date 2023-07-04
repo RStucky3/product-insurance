@@ -36,45 +36,30 @@ if ($requestMethod === 'GET' && preg_match('/^\/product\/(\d+)$/', $requestUri, 
     $product = $productController->getProductById($productId);
 
     if ($product) {
-        // Prepare the response data
-        $response = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'salesPrice' => $product->salesPrice,
-            'productTypeId' => $product->productTypeId
-        ];
-
         // Return the response
         header('Content-Type: application/json');
         http_response_code(202);
-        echo json_encode($response);
+        echo json_encode($product);
     } else {
         // Handle product not found
         http_response_code(404);
         echo 'Product not found';
     }
-} else if ($requestMethod === 'GET' && preg_match('/^\/productType\/(\d+)$/', $requestUri, $matches)) {
+} else if ($requestMethod === 'GET' && preg_match('/^\/product-type\/(\d+)$/', $requestUri, $matches)) {
     $productTypeId = $matches[1];
     $productType = $productTypeController->getProductTypeById($productTypeId);
 
     if ($productType) {
-        // Prepare the response data
-        $response = [
-            'id' => $productType->id,
-            'name' => $productType->name,
-            'canBeInsured' => $productType->canBeInsured,
-        ];
-
         // Return the response
         header('Content-Type: application/json');
         http_response_code(202);
-        echo json_encode($response);
+        echo json_encode($productType);
     } else {
         // Handle productType not found
         http_response_code(404);
         echo 'Product type not found';
     }
-} else if ($requestMethod === 'GET' && preg_match('/^\/productInsurance\/(\d+)$/', $requestUri, $matches)) {
+} else if ($requestMethod === 'GET' && preg_match('/^\/product-insurance\/(\d+)$/', $requestUri, $matches)) {
     $productId = $matches[1];
     $product = $productController->getProductById($productId);
 
