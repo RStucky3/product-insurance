@@ -6,6 +6,8 @@ use App\controllers\ProductInsuranceController;
 use App\interfaces\InsuranceCalculatorInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\interfaces\ProductTypeRepositoryInterface;
+use App\models\Product;
+use App\models\ProductType;
 use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
@@ -40,8 +42,9 @@ class ProductInsuranceControllerTest extends TestCase
 
     public function testShouldReturnStatusCodeInternalServerErrorWhenProductTypeIsNotFound(): void
     {
+        $product = new Product(1, 'Test Product', 100, 1);
         // Configure the mocks to return a product, but null for getProductTypeById
-        $this->productRepositoryMock->method('getProductById')->willReturn((object) ['productTypeId' => 1]);
+        $this->productRepositoryMock->method('getProductById')->willReturn($product);
         $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn(null);
 
         // Call the method under test
@@ -53,9 +56,12 @@ class ProductInsuranceControllerTest extends TestCase
 
     public function testShouldReturnStatusCodeAcceptedWhenTheProductCanNotBeInsured(): void
     {
+        $product = new Product(1, 'Test Product', 100, 1);
+        $productType = new ProductType(1, 'Test Product Type', false);
+
         // Configure the mocks to return a product, but null for getProductTypeById
-        $this->productRepositoryMock->method('getProductById')->willReturn((object) ['productTypeId' => 1]);
-        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn((object) ['canBeInsured' => false]);
+        $this->productRepositoryMock->method('getProductById')->willReturn($product);
+        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn($productType);
 
         // Call the method under test
         $result = $this->productInsuranceController->getProductInsurance(123);
@@ -66,9 +72,12 @@ class ProductInsuranceControllerTest extends TestCase
 
     public function testShouldReturnStatusCodeAcceptedWhenInsuranceIsCalculated(): void
     {
+        $product = new Product(1, 'Test Product', 100, 1);
+        $productType = new ProductType(1, 'Test Product Type', true);
+
         // Configure the mocks to return a product, but null for getProductTypeById
-        $this->productRepositoryMock->method('getProductById')->willReturn((object) ['productTypeId' => 1, 'salesPrice' => 100]);
-        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn((object) ['id' => 123, 'canBeInsured' => true]);
+        $this->productRepositoryMock->method('getProductById')->willReturn($product);
+        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn($productType);
 
         // Call the method under test
         $result = $this->productInsuranceController->getProductInsurance(123);

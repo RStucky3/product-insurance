@@ -19,9 +19,9 @@ class JsonProductTypeRepositoryTest extends TestCase
     public function testShouldGetProductTypeById(): void
     {
         $productType = $this->repository->getProductTypeById(21);
-        $this->assertEquals(21, $productType->id);
-        $this->assertEquals('Laptops', $productType->name);
-        $this->assertTrue($productType->canBeInsured);
+        $this->assertEquals(21, $productType->getId());
+        $this->assertEquals('Laptops', $productType->getName());
+        $this->assertTrue($productType->getCanBeInsured());
     }
 
     public function testShouldReturnNullWhenNotExistingProductTypeIdIsGiven(): void

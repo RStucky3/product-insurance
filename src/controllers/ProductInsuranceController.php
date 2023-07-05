@@ -55,7 +55,6 @@ class ProductInsuranceController
         $insurancePrice = $this->insuranceCalculator->calculateInsuranceCost($productSalesPrice, $productType->getId());
 
         // If insurance price is 0 no insurance is needed
-        // If the controller sends -1 back the product can not be insured
         if ($insurancePrice === 0) {
             echo 'Product does not need to be insured due to low sales price';
         }

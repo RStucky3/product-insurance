@@ -4,6 +4,7 @@ namespace tests\unit;
 
 use App\controllers\ProductController;
 use App\Interfaces\ProductRepositoryInterface;
+use App\models\Product;
 use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
@@ -34,12 +35,7 @@ class ProductControllerTest extends TestCase
     {
         $productId = 123;
 
-        $product = [
-            'id' => $productId,
-            'name' => 'Test Product',
-            'salesPrice' => 100,
-            'productTypeId' => 456
-        ];
+        $product = new Product($productId, 'Test Product', 100, 456);
 
         $this->productRepositoryMock->method('getProductById')->willReturn($product);
 

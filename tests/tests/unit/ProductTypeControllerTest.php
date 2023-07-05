@@ -4,6 +4,7 @@ namespace tests\unit;
 
 use App\controllers\ProductTypeController;
 use App\interfaces\ProductTypeRepositoryInterface;
+use App\models\ProductType;
 use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
@@ -34,11 +35,7 @@ class ProductTypeControllerTest extends TestCase
     {
         $productTypeId = 123;
 
-        $productType = [
-            'id' => $productTypeId,
-            'name' => 'Test Product Type',
-            'canBeInsured' => true,
-        ];
+        $productType = new ProductType($productTypeId, 'Test Product Type', true);
 
         $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn($productType);
 
