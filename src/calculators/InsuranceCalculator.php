@@ -1,12 +1,12 @@
 <?php
 
-namespace calculators;
+namespace App\calculators;
 
-use InsuranceCalculatorInterface;
+use App\interfaces\InsuranceCalculatorInterface;
 
 class InsuranceCalculator implements InsuranceCalculatorInterface
 {
-    public function calculateInsuranceCost($productSalesPrice): int
+    public function calculateInsuranceCost(int $productSalesPrice): int
     {
         if ($productSalesPrice < 500) {
             return 0;

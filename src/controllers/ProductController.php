@@ -1,14 +1,14 @@
 <?php
 
-namespace controllers;
+namespace App\controllers;
 
-use InsuranceCalculatorInterface;
-use ProductRepositoryInterface;
+use App\interfaces\InsuranceCalculatorInterface;
+use App\Interfaces\ProductRepositoryInterface;
 
 class ProductController
 {
-    private $productRepository;
-    private $insuranceCalculator;
+    private ProductRepositoryInterface $productRepository;
+    private InsuranceCalculatorInterface $insuranceCalculator;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,

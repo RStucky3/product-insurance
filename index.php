@@ -1,19 +1,14 @@
 <?php
 
-use calculators\InsuranceCalculator;
-use controllers\ProductController;
-use controllers\ProductTypeController;
-use repositories\JsonProductRepository;
-use repositories\JsonProductTypeRepository;
+namespace App;
 
-require_once 'src/interfaces/ProductRepositoryInterface.php';
-require_once 'src/interfaces/ProductTypeRepositoryInterface.php';
-require_once 'src/interfaces/InsuranceCalculatorInterface.php';
-require_once 'src/repositories/JsonProductRepository.php';
-require_once 'src/repositories/JsonProductTypeRepository.php';
-require_once 'src/controllers/ProductController.php';
-require_once 'src/controllers/ProductTypeController.php';
-require_once 'src/calculators/InsuranceCalculator.php';
+use App\calculators\InsuranceCalculator;
+use App\controllers\ProductController;
+use App\controllers\ProductTypeController;
+use App\Repositories\JsonProductRepository;
+use App\Repositories\JsonProductTypeRepository;
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $requestUri = $_SERVER['REQUEST_URI'];
@@ -22,8 +17,8 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $requestUri = explode('?', $requestUri)[0];
 
 // Instantiate the repository with the JSON file path
-$productRepository = new JsonProductRepository('src/data/products.json');
-$productTypeRepository = new JsonProductTypeRepository('src/data/productTypes.json');
+$productRepository = new JsonProductRepository('data/products.json');
+$productTypeRepository = new JsonProductTypeRepository('data/productTypes.json');
 
 $insuranceCalculator = new InsuranceCalculator();
 

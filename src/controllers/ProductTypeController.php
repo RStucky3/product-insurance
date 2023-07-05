@@ -1,12 +1,12 @@
 <?php
 
-namespace controllers;
+namespace App\controllers;
 
-use ProductTypeRepositoryInterface;
+use App\interfaces\ProductTypeRepositoryInterface;
 
 class ProductTypeController
 {
-    private $productTypeRepository;
+    private ProductTypeRepositoryInterface $productTypeRepository;
 
     public function __construct(ProductTypeRepositoryInterface $productTypeRepository)
     {

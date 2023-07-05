@@ -1,6 +1,8 @@
 <?php
 
+namespace App\interfaces;
+
 interface InsuranceCalculatorInterface
 {
-    public function calculateInsuranceCost($productSalesPrice): int;
+    public function calculateInsuranceCost(int $productSalesPrice): int;
 }

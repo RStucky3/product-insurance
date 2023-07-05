@@ -1,8 +1,8 @@
 <?php
 
-namespace repositories;
+namespace App\Repositories;
 
-use ProductTypeRepositoryInterface;
+use App\interfaces\ProductTypeRepositoryInterface;
 
 class JsonProductTypeRepository implements ProductTypeRepositoryInterface
 {
