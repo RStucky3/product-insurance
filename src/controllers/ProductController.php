@@ -25,7 +25,7 @@ class ProductController
 
         if ($product) {
             // Return the response
-            echo json_encode($product);
+            echo $product->__toString();
 
             return HttpStatus::ACCEPTED;
         } else {

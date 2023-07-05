@@ -22,7 +22,7 @@ class ProductTypeController
 
         if ($productType) {
             // Return the response
-            echo json_encode($productType);
+            echo $productType->__toString();
 
             return HttpStatus::ACCEPTED;
         } else {

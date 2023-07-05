@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\ProductRepositoryInterface;
+use App\models\Product;
 
 class JsonProductRepository implements ProductRepositoryInterface
 {
@@ -13,7 +14,7 @@ class JsonProductRepository implements ProductRepositoryInterface
         $this->dataFile = $dataFile;
     }
 
-    public function getProductById($productId)
+    public function getProductById($productId): ?Product
     {
         // Read the JSON file contents
         $json = file_get_contents($this->dataFile);
@@ -24,7 +25,16 @@ class JsonProductRepository implements ProductRepositoryInterface
         // Search for the product by ID in the array
         foreach ($data as $product) {
             if ($product->id == $productId) {
-                return $product;
+                if (!$product->id || !$product->name || !$product->salesPrice || !$product->productTypeId) {
+                    return null;
+                }
+
+                return new Product(
+                    $product->id,
+                    $product->name,
+                    $product->salesPrice,
+                    $product->productTypeId,
+                );
             }
         }
 

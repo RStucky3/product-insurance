@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\interfaces\ProductTypeRepositoryInterface;
+use App\models\ProductType;
 
 class JsonProductTypeRepository implements ProductTypeRepositoryInterface
 {
@@ -13,7 +14,7 @@ class JsonProductTypeRepository implements ProductTypeRepositoryInterface
         $this->dataFile = $dataFile;
     }
 
-    public function getProductTypeById($productTypeId)
+    public function getProductTypeById($productTypeId): ?ProductType
     {
         // Read the JSON file contents
         $json = file_get_contents($this->dataFile);
@@ -24,7 +25,15 @@ class JsonProductTypeRepository implements ProductTypeRepositoryInterface
         // Search for the productType by ID in the array
         foreach ($data as $productType) {
             if ($productType->id == $productTypeId) {
-                return $productType;
+                if (!$productType->id || !$productType->name || !$productType->canBeInsured) {
+                    return null;
+                }
+
+                return new ProductType(
+                    $productType->id,
+                    $productType->name,
+                    $productType->canBeInsured
+                );
             }
         }
 
