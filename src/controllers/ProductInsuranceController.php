@@ -43,7 +43,7 @@ class ProductInsuranceController
         }
 
         if ($productType->getCanBeInsured() === false) {
-            echo 'Product can not be insured';
+            echo 'Product can not be insured, we do not insure this product type';
 
             return HttpStatus::ACCEPTED;
         }
