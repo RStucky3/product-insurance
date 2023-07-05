@@ -22,10 +22,10 @@ class InsuranceCalculator implements InsuranceCalculatorInterface
             return $insurancePrice;
         }
         else if ($productSalesPrice < 2000) {
-            return $insurancePrice+=1000;
+            return $insurancePrice + 1000;
         }
         else {
-            return $insurancePrice+=2000;
+            return $insurancePrice + 2000;
         }
     }
 }
