@@ -17,6 +17,26 @@ class Product
         $this->productTypeId = $productTypeId;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getSalesPrice(): int
+    {
+        return $this->salesPrice;
+    }
+
+    public function getProductTypeId(): int
+    {
+        return $this->productTypeId;
+    }
+
     public function __toString()
     {
         return json_encode([

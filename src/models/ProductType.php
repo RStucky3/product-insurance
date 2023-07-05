@@ -15,6 +15,21 @@ class ProductType
         $this->canBeInsured = $canBeInsured;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getCanBeInsured(): bool
+    {
+        return $this->canBeInsured;
+    }
+
     public function __toString()
     {
         return json_encode([

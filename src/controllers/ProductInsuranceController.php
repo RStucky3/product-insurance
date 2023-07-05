@@ -34,7 +34,7 @@ class ProductInsuranceController
             return HttpStatus::NOT_FOUND;
         }
 
-        $productType = $this->productTypeRepository->getProductTypeById($product->productTypeId);
+        $productType = $this->productTypeRepository->getProductTypeById($product->getProductTypeId());
 
         if (!$productType) {
             echo 'Product type not found';
@@ -42,17 +42,17 @@ class ProductInsuranceController
             return HttpStatus::INTERNAL_SERVER_ERROR;
         }
 
-        if ($productType->canBeInsured === false) {
+        if ($productType->getCanBeInsured() === false) {
             echo 'Product can not be insured';
 
             return HttpStatus::ACCEPTED;
         }
 
         // Get the product sales price
-        $productSalesPrice = $product->salesPrice;
+        $productSalesPrice = $product->getSalesPrice();
 
         // Get the insurance information
-        $insurancePrice = $this->insuranceCalculator->calculateInsuranceCost($productSalesPrice, $productType->id);
+        $insurancePrice = $this->insuranceCalculator->calculateInsuranceCost($productSalesPrice, $productType->getId());
 
         // If insurance price is 0 no insurance is needed
         // If the controller sends -1 back the product can not be insured
