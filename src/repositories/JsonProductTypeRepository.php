@@ -25,7 +25,7 @@ class JsonProductTypeRepository implements ProductTypeRepositoryInterface
         // Search for the productType by ID in the array
         foreach ($data as $productType) {
             if ($productType->id == $productTypeId) {
-                if (!$productType->id || !$productType->name || !$productType->canBeInsured) {
+                if (!isset($productType->id) || !isset($productType->name) || !isset($productType->canBeInsured)) {
                     return null;
                 }
 

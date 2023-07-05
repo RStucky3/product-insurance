@@ -25,7 +25,11 @@ class JsonProductRepository implements ProductRepositoryInterface
         // Search for the product by ID in the array
         foreach ($data as $product) {
             if ($product->id == $productId) {
-                if (!$product->id || !$product->name || !$product->salesPrice || !$product->productTypeId) {
+                if (!isset($product->id) ||
+                    !isset($product->name) ||
+                    !isset($product->salesPrice) ||
+                    !isset($product->productTypeId)
+                ) {
                     return null;
                 }
 
