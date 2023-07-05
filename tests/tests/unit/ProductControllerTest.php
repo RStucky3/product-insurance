@@ -8,8 +8,6 @@ use App\models\Product;
 use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 class ProductControllerTest extends TestCase
 {
     private ProductRepositoryInterface $productRepositoryMock;

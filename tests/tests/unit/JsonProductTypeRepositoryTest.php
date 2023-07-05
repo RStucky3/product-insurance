@@ -5,8 +5,6 @@ namespace tests\unit;
 use App\Repositories\JsonProductTypeRepository;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 class JsonProductTypeRepositoryTest extends TestCase
 {
     private JsonProductTypeRepository $repository;

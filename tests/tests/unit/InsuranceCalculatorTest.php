@@ -5,8 +5,6 @@ namespace tests\unit;
 use App\calculators\InsuranceCalculator;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 class InsuranceCalculatorTest extends TestCase
 {
     private InsuranceCalculator $calculator;
