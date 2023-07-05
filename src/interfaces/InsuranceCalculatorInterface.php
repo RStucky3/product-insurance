@@ -4,5 +4,5 @@ namespace App\interfaces;
 
 interface InsuranceCalculatorInterface
 {
-    public function calculateInsuranceCost(int $productSalesPrice): int;
+    public function calculateInsuranceCost(int $productSalesPrice, int $productTypeId): int;
 }

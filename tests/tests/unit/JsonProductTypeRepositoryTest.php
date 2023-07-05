@@ -13,7 +13,7 @@ class JsonProductTypeRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->repository = new JsonProductTypeRepository('../../data/productTypes.json');
+        $this->repository = new JsonProductTypeRepository('../../../data/productTypes.json');
     }
 
     public function testShouldGetProductTypeById(): void

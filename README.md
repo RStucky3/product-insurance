@@ -3,9 +3,11 @@ At Coolblue we want to be able to insure the products that we sell to customers,
 
 ## Setup
 
+Run `composer install`
+
 ### Running
 
-To make sure everyone can run this project, I am running it with the build in server from PHP. If you have PHP installed you can run it using the command `php -S localhost:8000`.
+To make sure everyone can run this project, I am running it with the build-in server from PHP. If you have PHP installed you can run it using the command `php -S localhost:8000`.
 
 ### Reviewing URIs
 
@@ -26,6 +28,4 @@ To make sure everyone can run this project, I am running it with the build in se
 
 To run the test you need to have composer installed. 
 
-Run `composer install`
-
-You can find the tests in the test file located in `src/tests/unit`
+You can find the tests in the test file located in `tests/tests/unit`

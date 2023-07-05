@@ -4,50 +4,35 @@ namespace App\controllers;
 
 use App\interfaces\InsuranceCalculatorInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Utils\HttpStatus;
 
 class ProductController
 {
     private ProductRepositoryInterface $productRepository;
-    private InsuranceCalculatorInterface $insuranceCalculator;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        InsuranceCalculatorInterface $insuranceCalculator
     )
     {
         $this->productRepository = $productRepository;
-        $this->insuranceCalculator = $insuranceCalculator;
     }
 
-    public function getProductById($productId)
+    public function getProductById($productId): int
     {
         // Call the repository method to retrieve the product information
         // Return the product information
-        return $this->productRepository->getProductById($productId);
-    }
+        $product = $this->productRepository->getProductById($productId);
 
-    public function getProductInsurance($product, $productType): int
-    {
-        // Check if the product can be insured
-        if ($productType->canBeInsured === false) {
-            return -1;
+        if ($product) {
+            // Return the response
+            echo json_encode($product);
+
+            return HttpStatus::ACCEPTED;
+        } else {
+            // Handle product not found
+            echo 'Product not found';
+
+            return HttpStatus::NOT_FOUND;
         }
-
-        // Get the product sales price
-        $productSalesPrice = $product->salesPrice;
-
-        // Get the insurance information
-        $insurancePrice = $this->insuranceCalculator->calculateInsuranceCost($productSalesPrice);
-
-        $laptopProductTypeId = 21;
-        $smartphoneProductTypeId = 32;
-
-        // If product Type is Laptops (21) or if the product type is Smartphones (32) 500,- insurance is added.
-        if ($productType->id === $laptopProductTypeId || $productType->id === $smartphoneProductTypeId) {
-            $insurancePrice+= 500;
-        }
-
-        // Return the insurance information
-        return $insurancePrice;
     }
 }

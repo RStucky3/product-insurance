@@ -4,37 +4,46 @@ namespace tests\unit;
 
 use App\controllers\ProductTypeController;
 use App\interfaces\ProductTypeRepositoryInterface;
+use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 class ProductTypeControllerTest extends TestCase
 {
-    private ProductTypeRepositoryInterface $productTypeRepository;
-    private ProductTypeController $productTypeController;
+    private ProductTypeRepositoryInterface $productTypeRepositoryMock;
 
     protected function setUp(): void
     {
-        $this->productTypeRepository = $this->createMock(ProductTypeRepositoryInterface::class);
-        $this->productTypeController = new ProductTypeController($this->productTypeRepository);
+        $this->productTypeRepositoryMock = $this->createMock(ProductTypeRepositoryInterface::class);
+        $this->productTypeController = new ProductTypeController(
+            $this->productTypeRepositoryMock);
     }
 
-    public function testShouldReturnTheGivenProductType(): void
+    public function testShouldReturnStatusCodeNotFoundWhenProductTypeIsNotFound(): void
+    {
+        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn(null);
+        $productTypeId = 123;
+
+        $result = $this->productTypeController->getProductTypeById($productTypeId);
+
+        $this->assertEquals(HttpStatus::NOT_FOUND, $result);
+    }
+
+    public function testShouldReturnStatusCodeAcceptedWhenProductTypeIsFound(): void
     {
         $productTypeId = 123;
+
         $productType = [
             'id' => $productTypeId,
             'name' => 'Test Product Type',
             'canBeInsured' => true,
         ];
 
-        $this->productTypeRepository->expects($this->once())
-            ->method('getProductTypeById')
-            ->with($productTypeId)
-            ->willReturn($productType);
+        $this->productTypeRepositoryMock->method('getProductTypeById')->willReturn($productType);
 
         $result = $this->productTypeController->getProductTypeById($productTypeId);
 
-        $this->assertEquals($productType, $result);
+        $this->assertEquals(HttpStatus::ACCEPTED, $result);
     }
 }

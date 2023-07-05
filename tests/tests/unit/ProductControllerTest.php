@@ -3,27 +3,37 @@
 namespace tests\unit;
 
 use App\controllers\ProductController;
-use App\interfaces\InsuranceCalculatorInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Utils\HttpStatus;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 class ProductControllerTest extends TestCase
 {
-    private ProductRepositoryInterface $productRepository;
-    private ProductController $productController;
+    private ProductRepositoryInterface $productRepositoryMock;
 
     protected function setUp(): void
     {
-        $this->productRepository = $this->createMock(ProductRepositoryInterface::class);
-        $insuranceCalculator = $this->createMock(InsuranceCalculatorInterface::class);
-        $this->productController = new ProductController($this->productRepository, $insuranceCalculator);
+        $this->productRepositoryMock = $this->createMock(ProductRepositoryInterface::class);
+        $this->productController = new ProductController(
+            $this->productRepositoryMock);
     }
 
-    public function testShouldReturnTheGivenProductBasedOnProductTypeId(): void
+    public function testShouldReturnStatusCodeNotFoundWhenProductIsNotFound(): void
+    {
+        $this->productRepositoryMock->method('getProductById')->willReturn(null);
+        $productId = 123;
+
+        $result = $this->productController->getProductById($productId);
+
+        $this->assertEquals(HttpStatus::NOT_FOUND, $result);
+    }
+
+    public function testShouldReturnStatusCodeAcceptedWhenProductIsFound(): void
     {
         $productId = 123;
+
         $product = [
             'id' => $productId,
             'name' => 'Test Product',
@@ -31,53 +41,10 @@ class ProductControllerTest extends TestCase
             'productTypeId' => 456
         ];
 
-        $this->productRepository->expects($this->once())
-            ->method('getProductById')
-            ->with($productId)
-            ->willReturn($product);
+        $this->productRepositoryMock->method('getProductById')->willReturn($product);
 
         $result = $this->productController->getProductById($productId);
 
-        $this->assertEquals($product, $result);
-    }
-
-    public function testShouldReturnInsuranceCost(): void
-    {
-        $product = (object)[
-            'id' => 123,
-            'name' => 'Test Product',
-            'salesPrice' => 100,
-            'productTypeId' => 456
-        ];
-
-        $productType = (object)[
-            'id' => 1,
-            'name' => 'Laptops',
-            'canBeInsured' => true
-        ];
-
-        $result = $this->productController->getProductInsurance($product, $productType);
-
-        $this->assertEquals(0, $result);
-    }
-
-    public function testShouldReturn500WhenSmartphoneProductTypeIdIsGiven(): void
-    {
-        $product = (object)[
-            'id' => 123,
-            'name' => 'Test Product',
-            'salesPrice' => 700,
-            'productTypeId' => 456
-        ];
-
-        $productType = (object)[
-            'id' => 32,
-            'name' => 'smartphones',
-            'canBeInsured' => true
-        ];
-
-        $result = $this->productController->getProductInsurance($product, $productType);
-
-        $this->assertEquals(500, $result);
+        $this->assertEquals(HttpStatus::ACCEPTED, $result);
     }
 }
