@@ -26,29 +26,48 @@ $productTypeRepository = new JsonProductTypeRepository('data/productTypes.json')
 
 $insuranceCalculator = new InsuranceCalculator();
 
-// Instantiate the controller with the repository dependency
+// Instantiate the controllers with the repository and calculator dependencies
 $productController = new ProductController($productRepository);
 $productTypeController = new ProductTypeController($productTypeRepository);
-$productInsuranceController = new ProductInsuranceController($productRepository, $productTypeRepository,$insuranceCalculator);
+$productInsuranceController = new ProductInsuranceController($productRepository, $productTypeRepository, $insuranceCalculator);
 
-if ($requestMethod === 'GET' && preg_match('/^\/product\/(\d+)$/', $requestUri, $matches)) {
-    $productId = $matches[1];
-    $response = $productController->getProductById($productId);
+// Define the routes and their corresponding controllers
+$routes = [
+    '/product' => [
+        'controller' => $productController,
+        'method' => 'getProductById',
+    ],
+    '/product-type' => [
+        'controller' => $productTypeController,
+        'method' => 'getProductTypeById',
+    ],
+    '/product-insurance' => [
+        'controller' => $productInsuranceController,
+        'method' => 'getProductInsurance',
+    ],
+];
 
-    http_response_code($response);
-} else if ($requestMethod === 'GET' && preg_match('/^\/product-type\/(\d+)$/', $requestUri, $matches)) {
-    $productTypeId = $matches[1];
-    $response = $productTypeController->getProductTypeById($productTypeId);
+// Process the route
+$routeFound = false;
 
-    http_response_code($response);
-} else if ($requestMethod === 'GET' && preg_match('/^\/product-insurance\/(\d+)$/', $requestUri, $matches)) {
-    $productId = $matches[1];
-    $response = $productInsuranceController->getProductInsurance($productId);
+foreach ($routes as $route => $handler) {
+    $pattern = sprintf('/^%s\/(\d+)$/', preg_quote($route, '/'));
+    if (preg_match($pattern, $requestUri, $matches)) {
+        $routeFound = true;
+        $resourceId = $matches[1];
 
-    http_response_code($response);
-} else {
+        $controller = $handler['controller'];
+        $method = $handler['method'];
+
+        $response = $controller->$method($resourceId);
+
+        http_response_code($response);
+        break;
+    }
+}
+
+if (!$routeFound) {
     // Handle 404 error for invalid routes
     http_response_code(HttpStatus::BAD_REQUEST);
-
     echo 'Bad request';
 }
